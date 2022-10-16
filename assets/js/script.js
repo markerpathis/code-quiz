@@ -1,4 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//WELCOME TO FULL STACK FUED! The coding quiz game.
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // HTML container to be set up that holds the main content on the page (centered)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,6 +53,8 @@ var listQuestions = [
   },
 ];
 
+console.log(listQuestions.length);
+
 // Hooks to the UI
 var containerEl = document.querySelector(".container");
 var startQuizEl = document.querySelector("#startQuiz");
@@ -71,6 +76,23 @@ if (!startStatus) {
   document.getElementById("answer-four").style.display = "none";
 }
 
+function validateAnswer() {
+  if (selectedAnswer == listQuestions[quizProgress].correctAnswer) {
+    console.log("CORRECT");
+  } else {
+    console.log("INCORRECT");
+  }
+  quizProgress++;
+}
+
+function showQuestions() {
+  questionTextEl.textContent = listQuestions[quizProgress].question;
+  answerOneEl.textContent = listQuestions[quizProgress].answerone;
+  answerTwoEl.textContent = listQuestions[quizProgress].answertwo;
+  answerThreeEl.textContent = listQuestions[quizProgress].answerthree;
+  answerFourEl.textContent = listQuestions[quizProgress].answerfour;
+}
+
 // Shows the answers and question text when the quiz is started
 startQuizEl.addEventListener("click", function () {
   startStatus = true;
@@ -80,72 +102,32 @@ startQuizEl.addEventListener("click", function () {
     document.getElementById("answer-two").style.display = "block";
     document.getElementById("answer-three").style.display = "block";
     document.getElementById("answer-four").style.display = "block";
-    questionTextEl.textContent = listQuestions[quizProgress].question;
-    answerOneEl.textContent = listQuestions[quizProgress].answerone;
-    answerTwoEl.textContent = listQuestions[quizProgress].answertwo;
-    answerThreeEl.textContent = listQuestions[quizProgress].answerthree;
-    answerFourEl.textContent = listQuestions[quizProgress].answerfour;
+    showQuestions();
 
     // Event listeners that compare the selected answer against the correct answer
     answerOneEl.addEventListener("click", function () {
       selectedAnswer = "answerone";
       console.log("selectedAnswer: " + selectedAnswer);
-      if (selectedAnswer == listQuestions[quizProgress].correctAnswer) {
-        console.log("CORRECT");
-      } else {
-        console.log("INCORRECT");
-      }
-      quizProgress++;
-      questionTextEl.textContent = listQuestions[quizProgress].question;
-      answerOneEl.textContent = listQuestions[quizProgress].answerone;
-      answerTwoEl.textContent = listQuestions[quizProgress].answertwo;
-      answerThreeEl.textContent = listQuestions[quizProgress].answerthree;
-      answerFourEl.textContent = listQuestions[quizProgress].answerfour;
+      validateAnswer();
+      showQuestions();
     });
     answerTwoEl.addEventListener("click", function () {
       selectedAnswer = "answertwo";
       console.log("selectedAnswer: " + selectedAnswer);
-      if (selectedAnswer == listQuestions[quizProgress].correctAnswer) {
-        console.log("CORRECT");
-      } else {
-        console.log("INCORRECT");
-      }
-      quizProgress++;
-      questionTextEl.textContent = listQuestions[quizProgress].question;
-      answerOneEl.textContent = listQuestions[quizProgress].answerone;
-      answerTwoEl.textContent = listQuestions[quizProgress].answertwo;
-      answerThreeEl.textContent = listQuestions[quizProgress].answerthree;
-      answerFourEl.textContent = listQuestions[quizProgress].answerfour;
+      validateAnswer();
+      showQuestions();
     });
     answerThreeEl.addEventListener("click", function () {
       selectedAnswer = "answerthree";
       console.log("selectedAnswer: " + selectedAnswer);
-      if (selectedAnswer == listQuestions[quizProgress].correctAnswer) {
-        console.log("CORRECT");
-      } else {
-        console.log("INCORRECT");
-      }
-      quizProgress++;
-      questionTextEl.textContent = listQuestions[quizProgress].question;
-      answerOneEl.textContent = listQuestions[quizProgress].answerone;
-      answerTwoEl.textContent = listQuestions[quizProgress].answertwo;
-      answerThreeEl.textContent = listQuestions[quizProgress].answerthree;
-      answerFourEl.textContent = listQuestions[quizProgress].answerfour;
+      validateAnswer();
+      showQuestions();
     });
     answerFourEl.addEventListener("click", function () {
       selectedAnswer = "answerfour";
       console.log("selectedAnswer: " + selectedAnswer);
-      if (selectedAnswer == listQuestions[quizProgress].correctAnswer) {
-        console.log("CORRECT");
-      } else {
-        console.log("INCORRECT");
-      }
-      quizProgress++;
-      questionTextEl.textContent = listQuestions[quizProgress].question;
-      answerOneEl.textContent = listQuestions[quizProgress].answerone;
-      answerTwoEl.textContent = listQuestions[quizProgress].answertwo;
-      answerThreeEl.textContent = listQuestions[quizProgress].answerthree;
-      answerFourEl.textContent = listQuestions[quizProgress].answerfour;
+      validateAnswer();
+      showQuestions();
     });
   }
 });
