@@ -59,6 +59,7 @@ console.log(listQuestions.length);
 var containerEl = document.querySelector(".container");
 var startQuizEl = document.querySelector("#startQuiz");
 var questionTextEl = document.querySelector("h2");
+var scoreTextEl = document.querySelector("#scoreText");
 var answerOneEl = document.querySelector("#answer-one");
 var answerTwoEl = document.querySelector("#answer-two");
 var answerThreeEl = document.querySelector("#answer-three");
@@ -68,19 +69,8 @@ var answerFourEl = document.querySelector("#answer-four");
 var startStatus = false;
 var selectedAnswer = "";
 var quizProgress = 0;
-
-function showQuiz() {
-  document.getElementById("startQuiz").style.display = "none";
-  document.getElementById("answer-one").style.display = "block";
-  document.getElementById("answer-two").style.display = "block";
-  document.getElementById("answer-three").style.display = "block";
-  document.getElementById("answer-four").style.display = "block";
-  questionTextEl.textContent = listQuestions[quizProgress].question;
-  answerOneEl.textContent = listQuestions[quizProgress].answerone;
-  answerTwoEl.textContent = listQuestions[quizProgress].answertwo;
-  answerThreeEl.textContent = listQuestions[quizProgress].answerthree;
-  answerFourEl.textContent = listQuestions[quizProgress].answerfour;
-}
+// Placeholder value for score
+var scoreValue = 0;
 
 function hideQuiz() {
   document.getElementById("answer-one").style.display = "none";
@@ -89,22 +79,42 @@ function hideQuiz() {
   document.getElementById("answer-four").style.display = "none";
 }
 
-// Hides answer buttons before the quiz starts
-if (!startStatus) {
-  hideQuiz();
+function showQuiz() {
+  if (quizProgress < listQuestions.length) {
+    document.getElementById("startQuiz").style.display = "none";
+    document.getElementById("answer-one").style.display = "block";
+    document.getElementById("answer-two").style.display = "block";
+    document.getElementById("answer-three").style.display = "block";
+    document.getElementById("answer-four").style.display = "block";
+    questionTextEl.textContent = listQuestions[quizProgress].question;
+    answerOneEl.textContent = listQuestions[quizProgress].answerone;
+    answerTwoEl.textContent = listQuestions[quizProgress].answertwo;
+    answerThreeEl.textContent = listQuestions[quizProgress].answerthree;
+    answerFourEl.textContent = listQuestions[quizProgress].answerfour;
+  } else {
+    quizFinished();
+  }
 }
 
 function validateAnswer() {
   if (selectedAnswer == listQuestions[quizProgress].correctAnswer) {
     console.log("CORRECT");
+    scoreValue += 5;
   } else {
     console.log("INCORRECT");
   }
   quizProgress++;
 }
 
-function playQuiz() {
-  // Event listener to start the quiz
+function quizFinished() {
+  hideQuiz();
+  startStatus = false;
+  questionTextEl.textContent = "All Done!";
+  scoreTextEl.textContent = "Your score is " + scoreValue + "!";
+}
+// Hides answer buttons before the quiz starts
+if (!startStatus) {
+  hideQuiz();
 }
 
 // Shows the answers and question text when the quiz is started
@@ -139,3 +149,4 @@ startQuizEl.addEventListener("click", function () {
     });
   }
 });
+
