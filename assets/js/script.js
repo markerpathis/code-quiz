@@ -68,12 +68,30 @@ var answerFourEl = document.querySelector("#answer-four");
 var startStatus = false;
 var selectedAnswer = "";
 var quizProgress = 0;
-// Hides answer buttons before the quiz starts
-if (!startStatus) {
+
+function showQuiz() {
+  document.getElementById("startQuiz").style.display = "none";
+  document.getElementById("answer-one").style.display = "block";
+  document.getElementById("answer-two").style.display = "block";
+  document.getElementById("answer-three").style.display = "block";
+  document.getElementById("answer-four").style.display = "block";
+  questionTextEl.textContent = listQuestions[quizProgress].question;
+  answerOneEl.textContent = listQuestions[quizProgress].answerone;
+  answerTwoEl.textContent = listQuestions[quizProgress].answertwo;
+  answerThreeEl.textContent = listQuestions[quizProgress].answerthree;
+  answerFourEl.textContent = listQuestions[quizProgress].answerfour;
+}
+
+function hideQuiz() {
   document.getElementById("answer-one").style.display = "none";
   document.getElementById("answer-two").style.display = "none";
   document.getElementById("answer-three").style.display = "none";
   document.getElementById("answer-four").style.display = "none";
+}
+
+// Hides answer buttons before the quiz starts
+if (!startStatus) {
+  hideQuiz();
 }
 
 function validateAnswer() {
@@ -85,49 +103,39 @@ function validateAnswer() {
   quizProgress++;
 }
 
-function showQuestions() {
-  questionTextEl.textContent = listQuestions[quizProgress].question;
-  answerOneEl.textContent = listQuestions[quizProgress].answerone;
-  answerTwoEl.textContent = listQuestions[quizProgress].answertwo;
-  answerThreeEl.textContent = listQuestions[quizProgress].answerthree;
-  answerFourEl.textContent = listQuestions[quizProgress].answerfour;
+function playQuiz() {
+  // Event listener to start the quiz
 }
 
 // Shows the answers and question text when the quiz is started
 startQuizEl.addEventListener("click", function () {
   startStatus = true;
   if (startStatus) {
-    document.getElementById("startQuiz").style.display = "none";
-    document.getElementById("answer-one").style.display = "block";
-    document.getElementById("answer-two").style.display = "block";
-    document.getElementById("answer-three").style.display = "block";
-    document.getElementById("answer-four").style.display = "block";
-    showQuestions();
-
+    showQuiz();
     // Event listeners that compare the selected answer against the correct answer
     answerOneEl.addEventListener("click", function () {
       selectedAnswer = "answerone";
       console.log("selectedAnswer: " + selectedAnswer);
       validateAnswer();
-      showQuestions();
+      showQuiz();
     });
     answerTwoEl.addEventListener("click", function () {
       selectedAnswer = "answertwo";
       console.log("selectedAnswer: " + selectedAnswer);
       validateAnswer();
-      showQuestions();
+      showQuiz();
     });
     answerThreeEl.addEventListener("click", function () {
       selectedAnswer = "answerthree";
       console.log("selectedAnswer: " + selectedAnswer);
       validateAnswer();
-      showQuestions();
+      showQuiz();
     });
     answerFourEl.addEventListener("click", function () {
       selectedAnswer = "answerfour";
       console.log("selectedAnswer: " + selectedAnswer);
       validateAnswer();
-      showQuestions();
+      showQuiz();
     });
   }
 });
