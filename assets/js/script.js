@@ -30,6 +30,7 @@ var listQuestions = [
     answertwo: "answer two 0",
     answerthree: "answer three 0",
     answerfour: "answer four 0",
+    correctAnswer: "answerone",
   },
   {
     question: "Text goes here 1",
@@ -37,6 +38,7 @@ var listQuestions = [
     answertwo: "answer two 1",
     answerthree: "answer three 1",
     answerfour: "answer four 1",
+    correctAnswer: "answertwo",
   },
   {
     question: "Text goes here 2",
@@ -44,9 +46,9 @@ var listQuestions = [
     answertwo: "answer two 2",
     answerthree: "answer three 2",
     answerfour: "answer four 2",
+    correctAnswer: "answerthree",
   },
 ];
-
 
 // Hooks to the UI
 var containerEl = document.querySelector(".container");
@@ -57,10 +59,10 @@ var answerTwoEl = document.querySelector("#answer-two");
 var answerThreeEl = document.querySelector("#answer-three");
 var answerFourEl = document.querySelector("#answer-four");
 
-
 // Quiz state
 var startStatus = false;
-
+var selectedAnswer = "";
+var quizProgress = 0;
 // Hides answer buttons before the quiz starts
 if (!startStatus) {
   document.getElementById("answer-one").style.display = "none";
@@ -78,10 +80,72 @@ startQuizEl.addEventListener("click", function () {
     document.getElementById("answer-two").style.display = "block";
     document.getElementById("answer-three").style.display = "block";
     document.getElementById("answer-four").style.display = "block";
-    questionTextEl.textContent = listQuestions[0].question;
-    answerOneEl.textContent = listQuestions[0].answerone;
-    answerTwoEl.textContent = listQuestions[0].answertwo;
-    answerThreeEl.textContent = listQuestions[0].answerthree;
-    answerFourEl.textContent = listQuestions[0].answerfour;
+    questionTextEl.textContent = listQuestions[quizProgress].question;
+    answerOneEl.textContent = listQuestions[quizProgress].answerone;
+    answerTwoEl.textContent = listQuestions[quizProgress].answertwo;
+    answerThreeEl.textContent = listQuestions[quizProgress].answerthree;
+    answerFourEl.textContent = listQuestions[quizProgress].answerfour;
+
+    // Event listeners that compare the selected answer against the correct answer
+    answerOneEl.addEventListener("click", function () {
+      selectedAnswer = "answerone";
+      console.log("selectedAnswer: " + selectedAnswer);
+      if (selectedAnswer == listQuestions[quizProgress].correctAnswer) {
+        console.log("CORRECT");
+      } else {
+        console.log("INCORRECT");
+      }
+      quizProgress++;
+      questionTextEl.textContent = listQuestions[quizProgress].question;
+      answerOneEl.textContent = listQuestions[quizProgress].answerone;
+      answerTwoEl.textContent = listQuestions[quizProgress].answertwo;
+      answerThreeEl.textContent = listQuestions[quizProgress].answerthree;
+      answerFourEl.textContent = listQuestions[quizProgress].answerfour;
+    });
+    answerTwoEl.addEventListener("click", function () {
+      selectedAnswer = "answertwo";
+      console.log("selectedAnswer: " + selectedAnswer);
+      if (selectedAnswer == listQuestions[quizProgress].correctAnswer) {
+        console.log("CORRECT");
+      } else {
+        console.log("INCORRECT");
+      }
+      quizProgress++;
+      questionTextEl.textContent = listQuestions[quizProgress].question;
+      answerOneEl.textContent = listQuestions[quizProgress].answerone;
+      answerTwoEl.textContent = listQuestions[quizProgress].answertwo;
+      answerThreeEl.textContent = listQuestions[quizProgress].answerthree;
+      answerFourEl.textContent = listQuestions[quizProgress].answerfour;
+    });
+    answerThreeEl.addEventListener("click", function () {
+      selectedAnswer = "answerthree";
+      console.log("selectedAnswer: " + selectedAnswer);
+      if (selectedAnswer == listQuestions[quizProgress].correctAnswer) {
+        console.log("CORRECT");
+      } else {
+        console.log("INCORRECT");
+      }
+      quizProgress++;
+      questionTextEl.textContent = listQuestions[quizProgress].question;
+      answerOneEl.textContent = listQuestions[quizProgress].answerone;
+      answerTwoEl.textContent = listQuestions[quizProgress].answertwo;
+      answerThreeEl.textContent = listQuestions[quizProgress].answerthree;
+      answerFourEl.textContent = listQuestions[quizProgress].answerfour;
+    });
+    answerFourEl.addEventListener("click", function () {
+      selectedAnswer = "answerfour";
+      console.log("selectedAnswer: " + selectedAnswer);
+      if (selectedAnswer == listQuestions[quizProgress].correctAnswer) {
+        console.log("CORRECT");
+      } else {
+        console.log("INCORRECT");
+      }
+      quizProgress++;
+      questionTextEl.textContent = listQuestions[quizProgress].question;
+      answerOneEl.textContent = listQuestions[quizProgress].answerone;
+      answerTwoEl.textContent = listQuestions[quizProgress].answertwo;
+      answerThreeEl.textContent = listQuestions[quizProgress].answerthree;
+      answerFourEl.textContent = listQuestions[quizProgress].answerfour;
+    });
   }
 });
