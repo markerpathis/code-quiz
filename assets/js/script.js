@@ -33,7 +33,7 @@ var listQuestions = [
     answertwo: "answer two 0",
     answerthree: "answer three 0",
     answerfour: "answer four 0",
-    correctAnswer: "answerone",
+    correctAnswer: "answer-one",
   },
   {
     question: "Text goes here 1",
@@ -41,7 +41,7 @@ var listQuestions = [
     answertwo: "answer two 1",
     answerthree: "answer three 1",
     answerfour: "answer four 1",
-    correctAnswer: "answertwo",
+    correctAnswer: "answer-two",
   },
   {
     question: "Text goes here 2",
@@ -49,7 +49,7 @@ var listQuestions = [
     answertwo: "answer two 2",
     answerthree: "answer three 2",
     answerfour: "answer four 2",
-    correctAnswer: "answerthree",
+    correctAnswer: "answer-three",
   },
 ];
 
@@ -64,10 +64,12 @@ var answerOneEl = document.querySelector("#answer-one");
 var answerTwoEl = document.querySelector("#answer-two");
 var answerThreeEl = document.querySelector("#answer-three");
 var answerFourEl = document.querySelector("#answer-four");
+var quizAnswerEl = document.querySelector(".answerButtons");
 
 // Quiz state
 var startStatus = false;
 var selectedAnswer = "";
+var buttonClicked = "";
 var quizProgress = 0;
 // Placeholder value for score
 var scoreValue = 0;
@@ -79,7 +81,7 @@ function hideQuiz() {
   document.getElementById("answer-four").style.display = "none";
 }
 
-function showQuiz() {
+function renderQuiz() {
   if (quizProgress < listQuestions.length) {
     document.getElementById("startQuiz").style.display = "none";
     document.getElementById("answer-one").style.display = "block";
@@ -92,7 +94,10 @@ function showQuiz() {
     answerThreeEl.textContent = listQuestions[quizProgress].answerthree;
     answerFourEl.textContent = listQuestions[quizProgress].answerfour;
   } else {
-    quizFinished();
+    hideQuiz();
+    startStatus = false;
+    questionTextEl.textContent = "All Done!";
+    scoreTextEl.textContent = "Your score is " + scoreValue + "!";
   }
 }
 
@@ -106,47 +111,20 @@ function validateAnswer() {
   quizProgress++;
 }
 
-function quizFinished() {
-  hideQuiz();
-  startStatus = false;
-  questionTextEl.textContent = "All Done!";
-  scoreTextEl.textContent = "Your score is " + scoreValue + "!";
-}
-// Hides answer buttons before the quiz starts
-if (!startStatus) {
-  hideQuiz();
-}
+quizAnswerEl.addEventListener("click", function (event) {
+  var buttonClicked = event.target;
 
-// Shows the answers and question text when the quiz is started
-startQuizEl.addEventListener("click", function () {
-  startStatus = true;
-  if (startStatus) {
-    showQuiz();
-    // Event listeners that compare the selected answer against the correct answer
-    answerOneEl.addEventListener("click", function () {
-      selectedAnswer = "answerone";
-      console.log("selectedAnswer: " + selectedAnswer);
-      validateAnswer();
-      showQuiz();
-    });
-    answerTwoEl.addEventListener("click", function () {
-      selectedAnswer = "answertwo";
-      console.log("selectedAnswer: " + selectedAnswer);
-      validateAnswer();
-      showQuiz();
-    });
-    answerThreeEl.addEventListener("click", function () {
-      selectedAnswer = "answerthree";
-      console.log("selectedAnswer: " + selectedAnswer);
-      validateAnswer();
-      showQuiz();
-    });
-    answerFourEl.addEventListener("click", function () {
-      selectedAnswer = "answerfour";
-      console.log("selectedAnswer: " + selectedAnswer);
-      validateAnswer();
-      showQuiz();
-    });
+  if (buttonClicked.matches("button") === true) {
+    console.log("Answer Selected ID: " + buttonClicked.id);
+    selectedAnswer = buttonClicked.id;
+    validateAnswer();
+    renderQuiz();
   }
 });
 
+if (!startStatus) {
+  hideQuiz();
+}
+startQuizEl.addEventListener("click", function () {
+  renderQuiz();
+});
