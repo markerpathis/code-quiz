@@ -56,13 +56,14 @@ var listQuestions = [
 // Hooks to the UI
 // var containerEl = document.querySelector(".container");
 var startQuizEl = document.querySelector("#startQuiz");
-var questionTextEl = document.querySelector("h2");
+var questionTextEl = document.querySelector("#questionText");
 var scoreTextEl = document.querySelector("#scoreText");
 var answerOneEl = document.querySelector("#answer-one");
 var answerTwoEl = document.querySelector("#answer-two");
 var answerThreeEl = document.querySelector("#answer-three");
 var answerFourEl = document.querySelector("#answer-four");
 var clickedAnswerEl = document.querySelector(".answerButtons");
+var timerEl = document.getElementById("timer");
 
 // Quiz state
 var selectedAnswer = "";
@@ -70,6 +71,7 @@ var buttonClicked = "";
 var quizProgress = 0;
 // Placeholder value for score
 var scoreValue = 0;
+var secondsLeft = 11;
 
 function hideQuiz() {
   document.getElementById("answer-one").style.display = "none";
@@ -92,6 +94,7 @@ function renderQuiz() {
     answerFourEl.textContent = listQuestions[quizProgress].answerfour;
   } else {
     hideQuiz();
+    document.getElementById("timer").style.display = "none";
     questionTextEl.textContent = "All Done!";
     scoreTextEl.textContent = "Your score is " + scoreValue + "!";
   }
@@ -107,6 +110,21 @@ function validateAnswer() {
   quizProgress++;
 }
 
+function timer() {
+  var timerInterval = setInterval(function () {
+    document.getElementById("timer").style.display = "block";
+    secondsLeft--;
+    timerEl.textContent = "Time remaining: " + secondsLeft;
+    if (secondsLeft === 0) {
+      hideQuiz();
+      clearInterval(timerInterval);
+      document.getElementById("timer").style.display = "none";
+      questionTextEl.textContent = "All Done!";
+      scoreTextEl.textContent = "Your score is " + scoreValue + "!";
+    }
+  }, 1000);
+}
+
 // Funtion will be called when the page loads
 function init() {
   hideQuiz();
@@ -118,6 +136,7 @@ function init() {
 
 // Listens for clicks on the start button to begin the quiz
 startQuizEl.addEventListener("click", function () {
+  timer();
   renderQuiz();
 });
 
