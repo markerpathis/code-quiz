@@ -53,10 +53,8 @@ var listQuestions = [
   },
 ];
 
-console.log(listQuestions.length);
-
 // Hooks to the UI
-var containerEl = document.querySelector(".container");
+// var containerEl = document.querySelector(".container");
 var startQuizEl = document.querySelector("#startQuiz");
 var questionTextEl = document.querySelector("h2");
 var scoreTextEl = document.querySelector("#scoreText");
@@ -64,10 +62,9 @@ var answerOneEl = document.querySelector("#answer-one");
 var answerTwoEl = document.querySelector("#answer-two");
 var answerThreeEl = document.querySelector("#answer-three");
 var answerFourEl = document.querySelector("#answer-four");
-var quizAnswerEl = document.querySelector(".answerButtons");
+var clickedAnswerEl = document.querySelector(".answerButtons");
 
 // Quiz state
-var startStatus = false;
 var selectedAnswer = "";
 var buttonClicked = "";
 var quizProgress = 0;
@@ -95,7 +92,6 @@ function renderQuiz() {
     answerFourEl.textContent = listQuestions[quizProgress].answerfour;
   } else {
     hideQuiz();
-    startStatus = false;
     questionTextEl.textContent = "All Done!";
     scoreTextEl.textContent = "Your score is " + scoreValue + "!";
   }
@@ -111,20 +107,34 @@ function validateAnswer() {
   quizProgress++;
 }
 
-quizAnswerEl.addEventListener("click", function (event) {
-  var buttonClicked = event.target;
-
-  if (buttonClicked.matches("button") === true) {
-    console.log("Answer Selected ID: " + buttonClicked.id);
-    selectedAnswer = buttonClicked.id;
-    validateAnswer();
-    renderQuiz();
-  }
-});
-
-if (!startStatus) {
+// Funtion will be called when the page loads
+function init() {
   hideQuiz();
 }
+
+///////////////////////////////////////////////////////////////////////////////////////
+// EVENT LISTENERS
+///////////////////////////////////////////////////////////////////////////////////////
+
+// Listens for clicks on the start button to begin the quiz
 startQuizEl.addEventListener("click", function () {
   renderQuiz();
 });
+
+// Listens for clicks and saves the selected answer to validate in the answer function
+clickedAnswerEl.addEventListener("click", function (event) {
+  var buttonClicked = event.target;
+
+  if (buttonClicked.matches("button")) {
+    console.log("Answer Selected ID: " + buttonClicked.id);
+    selectedAnswer = buttonClicked.id;
+    // Checks if the selected answer is correct or not
+    validateAnswer();
+    // Updates the quiz questions being shown
+    renderQuiz();
+  }
+});
+///////////////////////////////////////////////////////////////////////////////////////
+
+// Calls init to hide the quiz when the page is loaded
+init();
