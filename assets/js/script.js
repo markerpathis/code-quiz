@@ -59,12 +59,12 @@ var startQuizEl = document.querySelector("#startQuiz");
 var restartQuizEl = document.querySelector("#restartQuiz");
 var questionTextEl = document.querySelector("#questionText");
 var scoreTextEl = document.querySelector("#scoreText");
+var answerButtonsEl = document.querySelector(".answerButtons");
 var answerOneEl = document.querySelector("#answer-one");
 var answerTwoEl = document.querySelector("#answer-two");
 var answerThreeEl = document.querySelector("#answer-three");
 var answerFourEl = document.querySelector("#answer-four");
-var clickedAnswerEl = document.querySelector(".answerButtons");
-var timerEl = document.getElementById("timer");
+var timerEl = document.querySelector("#timer");
 var initialsInputEl = document.querySelector("#initials-input");
 var initialsFormEl = document.querySelector("#initials-form");
 var leaderboardListEl = document.querySelector("#leaderboard-list");
@@ -80,22 +80,19 @@ var secondsLeft = 21;
 var leaderboard = [];
 
 function hideQuiz() {
-  document.getElementById("answer-one").style.display = "none";
-  document.getElementById("answer-two").style.display = "none";
-  document.getElementById("answer-three").style.display = "none";
-  document.getElementById("answer-four").style.display = "none";
-  document.getElementById("timer").style.display = "none";
+  answerButtonsEl.style.display = "none";
+  timerEl.style.display = "none";
   restartQuizEl.style.display = "none";
 }
 
 function hideInitialsForm() {
-  document.getElementById("initials-form").style.display = "none";
+  initialsFormEl.style.display = "none";
   questionTextEl.textContent = "";
   scoreTextEl.textContent = "";
 }
 
 function renderInitialsForm() {
-  document.getElementById("initials-form").style.display = "block";
+  initialsFormEl.style.display = "block";
   questionTextEl.textContent = "All Done!";
   scoreValue = secondsLeft;
   scoreTextEl.textContent = "Your score is " + scoreValue + "!";
@@ -103,13 +100,10 @@ function renderInitialsForm() {
 
 function renderQuiz() {
   if (quizProgress < listQuestions.length) {
-    document.getElementById("startQuiz").style.display = "none";
+    startQuizEl.style.display = "none";
     restartQuizEl.style.display = "none";
-    document.getElementById("answer-one").style.display = "block";
-    document.getElementById("answer-two").style.display = "block";
-    document.getElementById("answer-three").style.display = "block";
-    document.getElementById("answer-four").style.display = "block";
-    document.getElementById("timer").style.display = "block";
+    answerButtonsEl.style.display = "block";
+    timerEl.style.display = "block";
     questionTextEl.textContent = listQuestions[quizProgress].question;
     answerOneEl.textContent = listQuestions[quizProgress].answerone;
     answerTwoEl.textContent = listQuestions[quizProgress].answertwo;
@@ -133,7 +127,7 @@ function timer() {
   var timerInterval = setInterval(function () {
     secondsLeft--;
     if (secondsLeft > 0 && quizProgress < listQuestions.length) {
-      document.getElementById("timer").style.display = "block";
+      timerEl.style.display = "block";
       timerEl.textContent = "Time remaining: " + secondsLeft;
     } else if (secondsLeft === 0) {
       hideQuiz();
@@ -191,7 +185,7 @@ startQuizEl.addEventListener("click", function () {
 });
 
 // Listens for clicks and saves the selected answer to validate in the answer function
-clickedAnswerEl.addEventListener("click", function (event) {
+answerButtonsEl.addEventListener("click", function (event) {
   var buttonClicked = event.target;
 
   if (buttonClicked.matches("button")) {
