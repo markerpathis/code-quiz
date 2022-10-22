@@ -141,10 +141,28 @@ function timer() {
   }, 1000);
 }
 
+function storeLeaderboardEntry() {
+  // Stringify and set key in localStorage to todos array
+  localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+}
+
+function retreiveLeaderboard() {
+  var storedLeaderboard = JSON.parse(localStorage.getItem("leaderboard"));
+  if (storedLeaderboard !== null) {
+    leaderboard = storedLeaderboard;
+    // Sorts the array in descending order based on score
+    leaderboard.sort(function (a, b) {
+      return b.score - a.score;
+    });
+    console.log(leaderboard);
+  }
+}
+
 // Funtion will be called when the page loads
 function init() {
   hideQuiz();
   hideInitialsForm();
+  retreiveLeaderboard()
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -183,6 +201,8 @@ initialsFormEl.addEventListener("submit", function (event) {
   console.log(leaderboardEntry);
   leaderboard.push(leaderboardEntry);
   console.log(leaderboard);
+  storeLeaderboardEntry();
+
   hideInitialsForm();
 });
 
