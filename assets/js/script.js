@@ -64,6 +64,8 @@ var answerThreeEl = document.querySelector("#answer-three");
 var answerFourEl = document.querySelector("#answer-four");
 var clickedAnswerEl = document.querySelector(".answerButtons");
 var timerEl = document.getElementById("timer");
+var initialsInputEl = document.querySelector("#initials-input");
+var initialsFormEl = document.querySelector("#initials-form");
 
 // Quiz state
 var selectedAnswer = "";
@@ -83,12 +85,17 @@ function hideQuiz() {
   document.getElementById("timer").style.display = "none";
 }
 
-function hideLeaderboard() {
+function hideInitialsForm() {
   document.getElementById("initials-form").style.display = "none";
+  questionTextEl.textContent = "";
+  scoreTextEl.textContent = "";
 }
 
-function renderLeaderboard() {
+function renderInitialsForm() {
   document.getElementById("initials-form").style.display = "block";
+  questionTextEl.textContent = "All Done!";
+  scoreValue = secondsLeft;
+  scoreTextEl.textContent = "Your score is " + scoreValue + "!";
 }
 
 function renderQuiz() {
@@ -106,11 +113,7 @@ function renderQuiz() {
     answerFourEl.textContent = listQuestions[quizProgress].answerfour;
   } else {
     hideQuiz();
-    // document.getElementById("timer").style.display = "none";
-    questionTextEl.textContent = "All Done!";
-    scoreValue = secondsLeft;
-    scoreTextEl.textContent = "Your score is " + scoreValue + "!";
-    renderLeaderboard();
+    renderInitialsForm();
   }
 }
 
@@ -134,9 +137,6 @@ function timer() {
     } else if (secondsLeft === 0) {
       hideQuiz();
       clearInterval(timerInterval);
-      questionTextEl.textContent = "All Done!";
-      scoreValue = secondsLeft;
-      scoreTextEl.textContent = "Your score is " + scoreValue + "!";
     }
   }, 1000);
 }
@@ -144,7 +144,7 @@ function timer() {
 // Funtion will be called when the page loads
 function init() {
   hideQuiz();
-  hideLeaderboard();
+  hideInitialsForm();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -171,6 +171,21 @@ clickedAnswerEl.addEventListener("click", function (event) {
     renderQuiz();
   }
 });
+
+initialsFormEl.addEventListener("submit", function (event) {
+  event.preventDefault();
+  var initialsText = initialsInputEl.value.trim();
+  console.log(initialsText);
+  if (initialsText === "") {
+    return;
+  }
+  var leaderboardEntry = { initials: initialsText, score: scoreValue };
+  console.log(leaderboardEntry);
+  leaderboard.push(leaderboardEntry);
+  console.log(leaderboard);
+  hideInitialsForm();
+});
+
 ///////////////////////////////////////////////////////////////////////////////////////
 
 // Calls init to hide the quiz when the page is loaded
