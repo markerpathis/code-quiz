@@ -66,6 +66,7 @@ var clickedAnswerEl = document.querySelector(".answerButtons");
 var timerEl = document.getElementById("timer");
 var initialsInputEl = document.querySelector("#initials-input");
 var initialsFormEl = document.querySelector("#initials-form");
+var leaderboardListEl = document.querySelector("#leaderboard-list");
 
 // Quiz state
 var selectedAnswer = "";
@@ -119,10 +120,7 @@ function renderQuiz() {
 
 function validateAnswer() {
   if (selectedAnswer == listQuestions[quizProgress].correctAnswer) {
-    console.log("CORRECT");
-    // scoreValue += 5;
   } else {
-    console.log("INCORRECT");
     secondsLeft = secondsLeft - 10;
   }
   quizProgress++;
@@ -158,11 +156,21 @@ function retreiveLeaderboard() {
   }
 }
 
+function renderLeaderboard() {
+  leaderboardListEl.innerHTML = "";
+  for (var i = 0; i < leaderboard.length; i++) {
+    var entry = leaderboard[i].initials + " - " + leaderboard[i].score;
+    var li = document.createElement("li");
+    li.textContent = entry;
+    leaderboardListEl.appendChild(li);
+  }
+}
+
 // Funtion will be called when the page loads
 function init() {
   hideQuiz();
   hideInitialsForm();
-  retreiveLeaderboard()
+  retreiveLeaderboard();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -202,8 +210,9 @@ initialsFormEl.addEventListener("submit", function (event) {
   leaderboard.push(leaderboardEntry);
   console.log(leaderboard);
   storeLeaderboardEntry();
-
+  retreiveLeaderboard();
   hideInitialsForm();
+  renderLeaderboard();
 });
 
 ///////////////////////////////////////////////////////////////////////////////////////
