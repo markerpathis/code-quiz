@@ -56,6 +56,7 @@ var listQuestions = [
 // Hooks to the UI
 // var containerEl = document.querySelector(".container");
 var startQuizEl = document.querySelector("#startQuiz");
+var restartQuizEl = document.querySelector("#restartQuiz");
 var questionTextEl = document.querySelector("#questionText");
 var scoreTextEl = document.querySelector("#scoreText");
 var answerOneEl = document.querySelector("#answer-one");
@@ -84,6 +85,7 @@ function hideQuiz() {
   document.getElementById("answer-three").style.display = "none";
   document.getElementById("answer-four").style.display = "none";
   document.getElementById("timer").style.display = "none";
+  restartQuizEl.style.display = "none";
 }
 
 function hideInitialsForm() {
@@ -102,6 +104,7 @@ function renderInitialsForm() {
 function renderQuiz() {
   if (quizProgress < listQuestions.length) {
     document.getElementById("startQuiz").style.display = "none";
+    restartQuizEl.style.display = "none";
     document.getElementById("answer-one").style.display = "block";
     document.getElementById("answer-two").style.display = "block";
     document.getElementById("answer-three").style.display = "block";
@@ -128,12 +131,14 @@ function validateAnswer() {
 
 function timer() {
   var timerInterval = setInterval(function () {
+    secondsLeft--;
     if (secondsLeft > 0 && quizProgress < listQuestions.length) {
       document.getElementById("timer").style.display = "block";
-      secondsLeft--;
       timerEl.textContent = "Time remaining: " + secondsLeft;
     } else if (secondsLeft === 0) {
       hideQuiz();
+      clearInterval(timerInterval);
+    } else {
       clearInterval(timerInterval);
     }
   }, 1000);
@@ -164,6 +169,7 @@ function renderLeaderboard() {
     li.textContent = entry;
     leaderboardListEl.appendChild(li);
   }
+  restartQuizEl.style.display = "block";
 }
 
 // Funtion will be called when the page loads
@@ -213,6 +219,15 @@ initialsFormEl.addEventListener("submit", function (event) {
   retreiveLeaderboard();
   hideInitialsForm();
   renderLeaderboard();
+});
+
+restartQuizEl.addEventListener("click", function () {
+  quizProgress = 0;
+  secondsLeft = 21;
+  leaderboardListEl.style.display = "none";
+  timerEl.textContent = "Great ready, timer starting now!";
+  timer();
+  renderQuiz();
 });
 
 ///////////////////////////////////////////////////////////////////////////////////////
