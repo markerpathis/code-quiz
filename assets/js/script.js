@@ -71,13 +71,15 @@ var buttonClicked = "";
 var quizProgress = 0;
 // Placeholder value for score
 var scoreValue = 0;
-var secondsLeft = 11;
+// var secondsLeft = 101;
+var secondsLeft = 21;
 
 function hideQuiz() {
   document.getElementById("answer-one").style.display = "none";
   document.getElementById("answer-two").style.display = "none";
   document.getElementById("answer-three").style.display = "none";
   document.getElementById("answer-four").style.display = "none";
+  document.getElementById("timer").style.display = "none";
 }
 
 function renderQuiz() {
@@ -87,6 +89,7 @@ function renderQuiz() {
     document.getElementById("answer-two").style.display = "block";
     document.getElementById("answer-three").style.display = "block";
     document.getElementById("answer-four").style.display = "block";
+    document.getElementById("timer").style.display = "block";
     questionTextEl.textContent = listQuestions[quizProgress].question;
     answerOneEl.textContent = listQuestions[quizProgress].answerone;
     answerTwoEl.textContent = listQuestions[quizProgress].answertwo;
@@ -94,8 +97,9 @@ function renderQuiz() {
     answerFourEl.textContent = listQuestions[quizProgress].answerfour;
   } else {
     hideQuiz();
-    document.getElementById("timer").style.display = "none";
+    // document.getElementById("timer").style.display = "none";
     questionTextEl.textContent = "All Done!";
+    scoreValue = secondsLeft;
     scoreTextEl.textContent = "Your score is " + scoreValue + "!";
   }
 }
@@ -103,23 +107,25 @@ function renderQuiz() {
 function validateAnswer() {
   if (selectedAnswer == listQuestions[quizProgress].correctAnswer) {
     console.log("CORRECT");
-    scoreValue += 5;
+    // scoreValue += 5;
   } else {
     console.log("INCORRECT");
+    secondsLeft = secondsLeft - 10;
   }
   quizProgress++;
 }
 
 function timer() {
   var timerInterval = setInterval(function () {
-    document.getElementById("timer").style.display = "block";
-    secondsLeft--;
-    timerEl.textContent = "Time remaining: " + secondsLeft;
-    if (secondsLeft === 0) {
+    if (secondsLeft > 0 && quizProgress < listQuestions.length) {
+      document.getElementById("timer").style.display = "block";
+      secondsLeft--;
+      timerEl.textContent = "Time remaining: " + secondsLeft;
+    } else if (secondsLeft === 0) {
       hideQuiz();
       clearInterval(timerInterval);
-      document.getElementById("timer").style.display = "none";
       questionTextEl.textContent = "All Done!";
+      scoreValue = secondsLeft;
       scoreTextEl.textContent = "Your score is " + scoreValue + "!";
     }
   }, 1000);
@@ -136,6 +142,7 @@ function init() {
 
 // Listens for clicks on the start button to begin the quiz
 startQuizEl.addEventListener("click", function () {
+  timerEl.textContent = "Great ready, timer starting now!";
   timer();
   renderQuiz();
 });
