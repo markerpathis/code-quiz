@@ -73,6 +73,7 @@ var quizProgress = 0;
 var scoreValue = 0;
 // var secondsLeft = 101;
 var secondsLeft = 21;
+var leaderboard = [];
 
 function hideQuiz() {
   document.getElementById("answer-one").style.display = "none";
@@ -80,6 +81,14 @@ function hideQuiz() {
   document.getElementById("answer-three").style.display = "none";
   document.getElementById("answer-four").style.display = "none";
   document.getElementById("timer").style.display = "none";
+}
+
+function hideLeaderboard() {
+  document.getElementById("initials-form").style.display = "none";
+}
+
+function renderLeaderboard() {
+  document.getElementById("initials-form").style.display = "block";
 }
 
 function renderQuiz() {
@@ -101,6 +110,7 @@ function renderQuiz() {
     questionTextEl.textContent = "All Done!";
     scoreValue = secondsLeft;
     scoreTextEl.textContent = "Your score is " + scoreValue + "!";
+    renderLeaderboard();
   }
 }
 
@@ -134,6 +144,7 @@ function timer() {
 // Funtion will be called when the page loads
 function init() {
   hideQuiz();
+  hideLeaderboard();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
