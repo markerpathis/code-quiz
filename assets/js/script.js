@@ -25,31 +25,51 @@
 // When time is 0, show message that the quiz is over with the score and text box to submit initials
 // High scores page will be shown after initials are submitted
 
-// Questions
 var listQuestions = [
   {
-    question: "Text goes here 0",
-    answerone: "answer one 0",
-    answertwo: "answer two 0",
-    answerthree: "answer three 0",
-    answerfour: "answer four 0",
+    question:
+      "JavaScript is a programming language that adds __________ to your sebsite.",
+    answerone: "structure",
+    answertwo: "style",
+    answerthree: "interactivity",
+    answerfour: "none of the above",
+    correctAnswer: "answer-three",
+  },
+  {
+    question:
+      "Where is the best place to link a JavaScript file to your web application?",
+    answerone: "index.html - before the css style sheet",
+    answertwo: "CSS stylesheet - listed at the top",
+    answerthree: "terminal - using JS clone",
+    answerfour: "index.html - before the closing body tag",
+    correctAnswer: "answer-four",
+  },
+  {
+    question:
+      "Which of the following expressions uses an incorrect logical operator?",
+    answerone: "var expression1 = (a === b)",
+    answertwo: "var expression1 = (a !== b)",
+    answerthree: "var expression1 = (a ~ b)",
+    answerfour: "var expression1 = (a % b)",
+    correctAnswer: "answer-three",
+  },
+  {
+    question:
+      "The Document methods querySelector() and querySelectorAll(), use __________ to specify what you would like to hook to in your HTML file.",
+    answerone: "CSS selectors",
+    answertwo: "data attributes",
+    answerthree: "local storage",
+    answerfour: "none of the above",
     correctAnswer: "answer-one",
   },
   {
-    question: "Text goes here 1",
-    answerone: "answer one 1",
-    answertwo: "answer two 1",
-    answerthree: "answer three 1",
-    answerfour: "answer four 1",
+    question:
+      "__________ is a JavaScript method that you could use to make something happen on the page if the user clicks a specific element.",
+    answerone: "querySelector()",
+    answertwo: "addEventListener()",
+    answerthree: "innerHTML()",
+    answerfour: "push()",
     correctAnswer: "answer-two",
-  },
-  {
-    question: "Text goes here 2",
-    answerone: "answer one 2",
-    answertwo: "answer two 2",
-    answerthree: "answer three 2",
-    answerfour: "answer four 2",
-    correctAnswer: "answer-three",
   },
 ];
 
@@ -76,7 +96,7 @@ var quizProgress = 0;
 // Placeholder value for score
 var scoreValue = 0;
 // var secondsLeft = 101;
-var secondsLeft = 21;
+var secondsLeft = 61;
 var leaderboard = [];
 
 function hideQuiz() {
@@ -217,7 +237,7 @@ initialsFormEl.addEventListener("submit", function (event) {
 
 restartQuizEl.addEventListener("click", function () {
   quizProgress = 0;
-  secondsLeft = 21;
+  secondsLeft = 61;
   leaderboardListEl.style.display = "none";
   timerEl.textContent = "Great ready, timer starting now!";
   timer();
