@@ -8,19 +8,24 @@
   <body>
     <header class="header">
       <h1>Code Quiz!</h1>
+    </header>
+
+    <main>
       <div class="container">
         <h2 id="timer"></h2>
         <h2 id="questionText"></h2>
         <button id="startQuiz">Start Quiz</button>
-        <p id="scoreText"></p>
         <div id="initials"></div>
         <div class="answerButtons">
-          <button id="answer-one"></button>
-          <button id="answer-two"></button>
-          <button id="answer-three"></button>
-          <button id="answer-four"></button>
+          <button class="full-width" id="answer-one"></button>
+          <button class="full-width" id="answer-two"></button>
+          <button class="full-width" id="answer-three"></button>
+          <button class="full-width" id="answer-four"></button>
         </div>
         <div class="highscores">
+          <h2 id="finishedMessage"></h2>
+          <p id="scoreText"></p>
+          <div id="scoreMessage"></div>
           <form id="initials-form">
             <input
               type="text"
@@ -34,7 +39,8 @@
           <button id="restartQuiz">Play Again?</button>
         </div>
       </div>
-    </header>
+    </main>
+
     <script src="./assets/js/script.js"></script>
   </body>
 </html>

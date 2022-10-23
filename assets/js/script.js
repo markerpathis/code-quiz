@@ -88,6 +88,8 @@ var timerEl = document.querySelector("#timer");
 var initialsInputEl = document.querySelector("#initials-input");
 var initialsFormEl = document.querySelector("#initials-form");
 var leaderboardListEl = document.querySelector("#leaderboard-list");
+var finishedMessageEl = document.querySelector("#finishedMessage");
+var scoreMessageEl = document.querySelector("#scoreMessage");
 
 // Quiz state
 var selectedAnswer = "";
@@ -113,7 +115,8 @@ function hideInitialsForm() {
 
 function renderInitialsForm() {
   initialsFormEl.style.display = "block";
-  questionTextEl.textContent = "All Done!";
+  questionTextEl.textContent = "";
+  finishedMessageEl.textContent = "All Done!";
   scoreValue = secondsLeft;
   scoreTextEl.textContent = "Your score is " + scoreValue + "!";
 }
@@ -176,6 +179,7 @@ function retreiveLeaderboard() {
 }
 
 function renderLeaderboard() {
+  finishedMessageEl.textContent = "High Score Leaderboard";
   leaderboardListEl.innerHTML = "";
   for (var i = 0; i < leaderboard.length; i++) {
     var entry = leaderboard[i].initials + " - " + leaderboard[i].score;

@@ -10,17 +10,27 @@
 }
 
 .container {
+  padding-left: 15%;
+  padding-right: 15%;
+  width: 70%;
+}
+
+#timer {
   text-align: center;
 }
 
-.answerButtons {
-  /* display: block; */
+.full-width {
+  width: 100%;
+  text-align: left;
+}
+
+.highscores {
+  text-align: center;
 }
 
 button {
   padding: 10px;
   cursor: pointer;
-  /* font-size: 18px; */
   background-color: black;
   color: white;
   display: block;
