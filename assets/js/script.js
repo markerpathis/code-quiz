@@ -74,6 +74,7 @@ var listQuestions = [
 ];
 
 // Hooks to the UI
+var containerEl = document.querySelector(".container");
 var startQuizEl = document.querySelector("#startQuiz");
 var restartQuizEl = document.querySelector("#restartQuiz");
 var questionTextEl = document.querySelector("#questionText");
