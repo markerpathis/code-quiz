@@ -72,7 +72,7 @@ var listQuestions = [
     correctAnswer: "answer-two",
   },
 ];
-
+/////////////////////
 // Hooks to the UI
 var containerEl = document.querySelector(".container");
 var startQuizEl = document.querySelector("#startQuiz");
