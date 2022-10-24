@@ -181,6 +181,8 @@ function retreiveLeaderboard() {
 }
 
 function renderLeaderboard() {
+  leaderboardListEl.style.display = "block";
+  finishedMessageEl.textContent = "High Score Leaderboard";
   leaderboardListEl.innerHTML = "";
   for (var i = 0; i < leaderboard.length; i++) {
     var entry = leaderboard[i].initials + " - " + leaderboard[i].score;
@@ -245,6 +247,7 @@ restartQuizEl.addEventListener("click", function () {
   quizProgress = 0;
   secondsLeft = 61;
   leaderboardListEl.style.display = "none";
+  finishedMessageEl.textContent = "";
   timerEl.textContent = "Great ready, timer starting now!";
   timer();
   renderQuiz();
