@@ -90,6 +90,7 @@ var initialsFormEl = document.querySelector("#initials-form");
 var leaderboardListEl = document.querySelector("#leaderboard-list");
 var finishedMessageEl = document.querySelector("#finishedMessage");
 var scoreMessageEl = document.querySelector("#scoreMessage");
+var introTextEl = document.querySelector("#introText");
 
 // Quiz state
 var selectedAnswer = "";
@@ -204,6 +205,7 @@ function init() {
 
 // Listens for clicks on the start button to begin the quiz
 startQuizEl.addEventListener("click", function () {
+  introTextEl.textContent = "";
   timerEl.textContent = "Great ready, timer starting now!";
   timer();
   renderQuiz();
