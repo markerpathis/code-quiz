@@ -74,7 +74,7 @@ var listQuestions = [
 ];
 
 // Hooks to the UI
-// var containerEl = document.querySelector(".container");
+var containerEl = document.querySelector(".container");
 var startQuizEl = document.querySelector("#startQuiz");
 var restartQuizEl = document.querySelector("#restartQuiz");
 var questionTextEl = document.querySelector("#questionText");
@@ -100,11 +100,13 @@ var scoreValue = 0;
 // var secondsLeft = 101;
 var secondsLeft = 61;
 var leaderboard = [];
+var initialsText = "";
 
 function hideQuiz() {
   answerButtonsEl.style.display = "none";
   timerEl.style.display = "none";
   restartQuizEl.style.display = "none";
+  questionTextEl.style.display = "none";
 }
 
 function hideInitialsForm() {
@@ -115,10 +117,9 @@ function hideInitialsForm() {
 
 function renderInitialsForm() {
   initialsFormEl.style.display = "block";
-  questionTextEl.textContent = "";
-  finishedMessageEl.textContent = "All Done!";
   scoreValue = secondsLeft;
-  scoreTextEl.textContent = "Your score is " + scoreValue + "!";
+  scoreTextEl.textContent =
+    "You finished the code quiz! Your score is " + scoreValue + "!";
 }
 
 function renderQuiz() {
@@ -134,6 +135,7 @@ function renderQuiz() {
     answerFourEl.textContent = listQuestions[quizProgress].answerfour;
   } else {
     hideQuiz();
+    console.log("INITIALSTEXT: " + initialsText);
     renderInitialsForm();
   }
 }
@@ -179,13 +181,13 @@ function retreiveLeaderboard() {
 }
 
 function renderLeaderboard() {
-  finishedMessageEl.textContent = "High Score Leaderboard";
   leaderboardListEl.innerHTML = "";
   for (var i = 0; i < leaderboard.length; i++) {
     var entry = leaderboard[i].initials + " - " + leaderboard[i].score;
     var li = document.createElement("li");
     li.textContent = entry;
     leaderboardListEl.appendChild(li);
+    console.log("RENDER");
   }
   restartQuizEl.style.display = "block";
 }
@@ -224,7 +226,7 @@ answerButtonsEl.addEventListener("click", function (event) {
 
 initialsFormEl.addEventListener("submit", function (event) {
   event.preventDefault();
-  var initialsText = initialsInputEl.value.trim();
+  initialsText = initialsInputEl.value.trim();
   console.log(initialsText);
   if (initialsText === "") {
     return;

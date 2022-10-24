@@ -8,9 +8,6 @@
   <body>
     <header class="header">
       <h1>Code Quiz!</h1>
-    </header>
-
-    <main>
       <div class="container">
         <h2 id="timer"></h2>
         <h2 id="questionText"></h2>
@@ -23,12 +20,13 @@
           <button class="full-width" id="answer-four"></button>
         </div>
         <div class="highscores">
-          <h2 id="finishedMessage"></h2>
-          <p id="scoreText"></p>
+          <!-- <h2 id="finishedMessage"></h2> -->
+          <h2 id="scoreText"></h2>
           <div id="scoreMessage"></div>
           <form id="initials-form">
             <input
               type="text"
+              autocomplete="off"
               id="initials-input"
               name="initials-input"
               placeholder="Enter your initials"
@@ -39,8 +37,8 @@
           <button id="restartQuiz">Play Again?</button>
         </div>
       </div>
-    </main>
-
+    </header>
+    <main></main>
     <script src="./assets/js/script.js"></script>
   </body>
 </html>
