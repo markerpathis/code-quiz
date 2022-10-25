@@ -5,7 +5,7 @@
 var listQuestions = [
   {
     question:
-      "JavaScript is a programming language that adds __________ to your sebsite.",
+      "JavaScript is a programming language that adds __________ to your website.",
     answerone: "structure",
     answertwo: "style",
     answerthree: "interactivity",
@@ -32,7 +32,7 @@ var listQuestions = [
   },
   {
     question:
-      "The Document methods querySelector() and querySelectorAll(), use __________ to specify what you would like to hook to in your HTML file.",
+      "The Document methods querySelector() and querySelectorAll(), use __________ to specify what you would like to hook to, in your HTML file.",
     answerone: "CSS selectors",
     answertwo: "data attributes",
     answerthree: "local storage",
