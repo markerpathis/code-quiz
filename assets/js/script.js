@@ -1,30 +1,7 @@
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//WELCOME TO FULL STACK FUED! The coding quiz game.
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// HTML container to be set up that holds the main content on the page (centered)
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Timer should be available at the top right corner of the page
-// Timer starts when Start Quiz is selected (75 seconds)
-// Time on the timer naturally counts down at 1 second (1000ms)
-// Tiem on the timer is subtracted when a question is answered incorrectly (unspecified amount)
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Highscores link should be available at the top left corner of the page
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// When start quiz is selected, the h1 text changes to the question text
-// When start quiz is selected, content is aligned on the left, instead of in the center
-// When start quiz is selected, the buttons with the answer options are displayed in a list (block?)
-// Question text and header text are saved in an array or object, defaulting to index 0 when quiz status isn't started
-// Logic is needed to validate if the correct answer is selected
-// Message is shown below the answers if you got the answer correct or not
-// If correct, go to the next question and points are awarded
-// If incorrect, time subtracts (unspecified)
-// When time is 0, show message that the quiz is over with the score and text box to submit initials
-// High scores page will be shown after initials are submitted
-
+///////////////////////////////////////////////////////////////////////////////////////
+// Questions and Answers for the Quiz
+///////////////////////////////////////////////////////////////////////////////////////
+// Array used for the quiz text and correct answer
 var listQuestions = [
   {
     question:
@@ -72,48 +49,65 @@ var listQuestions = [
     correctAnswer: "answer-two",
   },
 ];
-/////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////
 // Hooks to the UI
+///////////////////////////////////////////////////////////////////////////////////////
+// Container for the quiz content and leaderboard
 var containerEl = document.querySelector(".container");
+// Buttons
 var startQuizEl = document.querySelector("#startQuiz");
 var restartQuizEl = document.querySelector("#restartQuiz");
-var questionTextEl = document.querySelector("#questionText");
-var scoreTextEl = document.querySelector("#scoreText");
 var answerButtonsEl = document.querySelector(".answerButtons");
+// Question text, answer text, message to print to user
+var questionTextEl = document.querySelector("#questionText");
 var answerOneEl = document.querySelector("#answer-one");
 var answerTwoEl = document.querySelector("#answer-two");
 var answerThreeEl = document.querySelector("#answer-three");
 var answerFourEl = document.querySelector("#answer-four");
-var timerEl = document.querySelector("#timer");
-var initialsInputEl = document.querySelector("#initials-input");
-var initialsFormEl = document.querySelector("#initials-form");
+// Other text the user will see (intro, score, leaderboard, finished message)
+var scoreTextEl = document.querySelector("#scoreText");
 var leaderboardListEl = document.querySelector("#leaderboard-list");
 var finishedMessageEl = document.querySelector("#finishedMessage");
 var scoreMessageEl = document.querySelector("#scoreMessage");
 var introTextEl = document.querySelector("#introText");
+// Timer
+var timerEl = document.querySelector("#timer");
+// Initials form for leaderboard
+var initialsInputEl = document.querySelector("#initials-input");
+var initialsFormEl = document.querySelector("#initials-form");
 
-// Quiz state
-var selectedAnswer = "";
-var buttonClicked = "";
+///////////////////////////////////////////////////////////////////////////////////////
+// JavaScript Variables
+///////////////////////////////////////////////////////////////////////////////////////
+// Quiz state variables
 var quizProgress = 0;
-// Placeholder value for score
+var selectedAnswer = "";
+// Placeholder value for score, which will later take the value of secondsLeft after the quiz ends
 var scoreValue = 0;
-// var secondsLeft = 101;
+// Starting time for the timer
 var secondsLeft = 61;
+// Array to populate the leaderboard using local storage
 var leaderboard = [];
 
+///////////////////////////////////////////////////////////////////////////////////////
+// Functions
+///////////////////////////////////////////////////////////////////////////////////////
+// When called, the quiz content will be hidden (before the quiz starts or after it ends)
 function hideQuiz() {
   answerButtonsEl.style.display = "none";
   timerEl.style.display = "none";
   restartQuizEl.style.display = "none";
 }
 
+// When called, the initials form will be hidden
 function hideInitialsForm() {
   initialsFormEl.style.display = "none";
   questionTextEl.textContent = "";
   scoreTextEl.textContent = "";
 }
 
+// When called, the initials form will be shown to the user along with their score
 function renderInitialsForm() {
   initialsFormEl.style.display = "block";
   questionTextEl.textContent = "";
@@ -122,8 +116,9 @@ function renderInitialsForm() {
   scoreTextEl.textContent = "Your score is " + scoreValue + "!";
 }
 
+// When called, the quiz questions and answer buttons will be shown to the user. The content will update based on quizProgress
 function renderQuiz() {
-  if (quizProgress < listQuestions.length) {
+  if (quizProgress < listQuestions.length && secondsLeft > 0) {
     startQuizEl.style.display = "none";
     restartQuizEl.style.display = "none";
     answerButtonsEl.style.display = "block";
@@ -139,6 +134,7 @@ function renderQuiz() {
   }
 }
 
+// When called, if the selected answer does not match correct Answer in the array, 10 seconds will be lost on the timer. Regardless of correct or incorrect, this progresses the quizProgress
 function validateAnswer() {
   if (selectedAnswer == listQuestions[quizProgress].correctAnswer) {
   } else {
@@ -147,38 +143,40 @@ function validateAnswer() {
   quizProgress++;
 }
 
+// Timer for the quiz, hides quiz content if timer reaches 0 and renders the initials form
 function timer() {
   var timerInterval = setInterval(function () {
     secondsLeft--;
     if (secondsLeft > 0 && quizProgress < listQuestions.length) {
       timerEl.style.display = "block";
       timerEl.textContent = "Time remaining: " + secondsLeft;
-    } else if (secondsLeft === 0) {
+    } else if (secondsLeft < 1) {
       hideQuiz();
       clearInterval(timerInterval);
+      renderInitialsForm();
     } else {
       clearInterval(timerInterval);
     }
   }, 1000);
 }
 
+// Stringify and set key in localStorage to leaderboard array
 function storeLeaderboardEntry() {
-  // Stringify and set key in localStorage to todos array
   localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
 }
 
+// Retreives leaderboard entries from local storage and sorts in descending order
 function retreiveLeaderboard() {
   var storedLeaderboard = JSON.parse(localStorage.getItem("leaderboard"));
   if (storedLeaderboard !== null) {
     leaderboard = storedLeaderboard;
-    // Sorts the array in descending order based on score
     leaderboard.sort(function (a, b) {
       return b.score - a.score;
     });
-    console.log(leaderboard);
   }
 }
 
+// When called, shows the high score leaderboard on the screen
 function renderLeaderboard() {
   leaderboardListEl.style.display = "block";
   finishedMessageEl.textContent = "High Score Leaderboard";
@@ -192,7 +190,10 @@ function renderLeaderboard() {
   restartQuizEl.style.display = "block";
 }
 
-// Funtion will be called when the page loads
+///////////////////////////////////////////////////////////////////////////////////////
+// Init Function
+///////////////////////////////////////////////////////////////////////////////////////
+// Will be called when the page loads
 function init() {
   hideQuiz();
   hideInitialsForm();
@@ -200,7 +201,7 @@ function init() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
-// EVENT LISTENERS
+// Event Listeners
 ///////////////////////////////////////////////////////////////////////////////////////
 
 // Listens for clicks on the start button to begin the quiz
@@ -211,12 +212,11 @@ startQuizEl.addEventListener("click", function () {
   renderQuiz();
 });
 
-// Listens for clicks and saves the selected answer to validate in the answer function
+// Listens for clicks and saves the selected answer to validate in the validateAnswer function
 answerButtonsEl.addEventListener("click", function (event) {
   var buttonClicked = event.target;
 
   if (buttonClicked.matches("button")) {
-    console.log("Answer Selected ID: " + buttonClicked.id);
     selectedAnswer = buttonClicked.id;
     // Checks if the selected answer is correct or not
     validateAnswer();
@@ -225,23 +225,23 @@ answerButtonsEl.addEventListener("click", function (event) {
   }
 });
 
+// Listens for if the user submits their initials on the initals form
 initialsFormEl.addEventListener("submit", function (event) {
   event.preventDefault();
   var initialsText = initialsInputEl.value.trim();
-  console.log(initialsText);
   if (initialsText === "") {
     return;
   }
   var leaderboardEntry = { initials: initialsText, score: scoreValue };
-  console.log(leaderboardEntry);
   leaderboard.push(leaderboardEntry);
-  console.log(leaderboard);
+  // stores the entry, retreives other entries from local storage, then hides the form and renders the leaderboard
   storeLeaderboardEntry();
   retreiveLeaderboard();
   hideInitialsForm();
   renderLeaderboard();
 });
 
+// Listens for clicks to restart the quiz
 restartQuizEl.addEventListener("click", function () {
   quizProgress = 0;
   secondsLeft = 61;
@@ -252,7 +252,5 @@ restartQuizEl.addEventListener("click", function () {
   renderQuiz();
 });
 
-///////////////////////////////////////////////////////////////////////////////////////
-
-// Calls init to hide the quiz when the page is loaded
+// Calls the init function for when the page is loaded
 init();
